@@ -1,0 +1,30 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "80:80"
+    volumes:
+      - certbot-webroot:/var/www/certbot
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-webroot:/var/www/certbot
+      - certbot-etc:/etc/letsencrypt
+    command: >
+      certonly
+      --webroot
+      --webroot-path=/var/www/certbot
+      -d ${CERTBOT_DOMAIN}
+      --email ${CERTBOT_EMAIL}
+      --agree-tos
+      --non-interactive
+    depends_on:
+      - web
+
+volumes:
+  certbot-webroot:
+  certbot-etc:

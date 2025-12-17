@@ -1,0 +1,2 @@
+CERTBOT_EMAIL=example@domain.com
+CERTBOT_DOMAIN=example.domain.com

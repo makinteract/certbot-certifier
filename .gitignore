@@ -1,0 +1,4 @@
+.env
+certs/
+volumes/
+.DS_Store
