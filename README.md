@@ -29,7 +29,9 @@ mkdir -p ./certbot/etc
 mkdir -p ./certbot/webroot
 ```
 
-4. Start services:
+## Create a certificate
+
+Start services:
 
 ```bash
 docker compose up certbot
@@ -49,6 +51,8 @@ Certificates will be available in:
 ├── privkey.pem
 ```
 
+## Renewal
+
 Renewal (⚠️ important)
 
 HTTP-01 renewals will fail unless:
@@ -56,8 +60,6 @@ HTTP-01 renewals will fail unless:
 - DNS still points to this machine
 - Port 80 is still open
 - The web container is running
-
-1. Renewal
 
 ```bash
 docker compose run certbot renew
