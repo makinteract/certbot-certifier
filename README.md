@@ -26,10 +26,9 @@ CERTBOT_DOMAIN=example.com
 
 ```bash
 docker compose up --build certbot
-Certificates will be available in:
 ```
 
-Certificates appear here
+Certificates will be available in:
 
 ```bash
 /etc/letsencrypt/live/<domain>/
@@ -37,7 +36,7 @@ Certificates appear here
   └── privkey.pem
 ```
 
-and you can inspect them this way
+and you can inspect them this way:
 
 ```bash
 docker volume inspect certbot-etc
@@ -55,4 +54,36 @@ HTTP-01 renewals will fail unless:
 
 ```bash
 docker compose run certbot renew
+```
+
+5. [Optional] Check the certificates were successfully created
+
+List the volumes:
+
+```bash
+docker volume ls
+```
+
+The certificate should be inside something like `certbot-certifier_certbot-etc`.
+
+```bash
+docker run --rm -it -v certbot-certifier_certbot-etc:/data alpine sh
+```
+
+From the shell, check the files inside the `data/live` folder.
+
+6. Extracting the certificate from the volume and copying it to /etc/letsencrypt
+
+Assuming the volume with your certificates is `certbot-certifier_certbot-etc`, simply do:
+
+```sh
+docker run --rm -v certbot-certifier_certbot-etc:/from -v /etc/letsencrypt:/to alpine sh -c "cp -a /from/* /to/"
+
+sudo chmod -R 755 /etc/letsencrypt
+```
+
+7. Set all down
+
+```sh
+docker compose down
 ```
